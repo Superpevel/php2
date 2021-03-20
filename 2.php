@@ -22,30 +22,73 @@
     Имя <br><input type =text name = "first_name" placeholder="Ваше имя">
     <p>Фамилия <br><input type =text name = "last_name" placeholder= "Ваше Фамилия">
     <p>Email <br><input type =text name = "email" placeholder= "Email">
-    <p>Что вы хотите рассказать о себе<br>
-        <textarea name = "comment" cols = 32 rows =5></textarea>
+    <p>Телефон <br><input type =text name = "phone" placeholder= "Phone">
 
         <input type="submit" value="Отправить">
         <input type="reset" value="Отменить">
 </form>
 <?php
-$times = array("PHP" => "14.30","Lisp"=>"12.00","Perl"=>"15.00","Unix"=>"14.00");
-$lectors = array("PHP"=>"Василий Васильевич","Lisp"=>"Иван Иванович","Perl"=>"Петр петрович","Unix"=>"Семен семенович");
-define("SIGN","C уважаение  администрация");
-define("MEETING_TIME","18.00");
-$date = "12 мая";
 $first_name = $_POST["first_name"];
-
-if (!preg_match('/[^а-яА-Я\s]+/msi',$first_name))
+$last_name = $_POST["last_name"];
+$email = $_POST["email"];
+$phone = $_POST["phone"];
+function ucfirst_utf8($str)
 {
-    echo '1';
-    if(!($first_name === strtoupper($first_name)))
-    {
-        echo "DA";
-    }
+    return mb_substr(mb_strtoupper($str, 'utf-8'), 0, 1, 'utf-8') . mb_substr(mb_strtolower($str, 'utf-8'), 1, mb_strlen($str)-1, 'utf-8');
 }
 
+if (isset($first_name) && !preg_match('/[^а-яА-Я\s]+/msi',$first_name))
+{
+    $temp = ucfirst_utf8($first_name);
+    if ($temp == $first_name)
+    {
+        echo '<p>Ваше имя';
+        echo $first_name;
+    }
+    else
+    {
+        echo '<p>Имя введено неправильно 1 буква не заглавная!';
+    }
 
+}
+else
+{
+    echo "<p>Введите ИМЯ!";
+}
+
+if (!(preg_match('/[^а-я ]+/msiu', $last_name)))
+{
+    $temp = ucfirst_utf8($last_name);
+
+    if ($temp == $last_name)
+    {
+        echo '<p>Ваше Фамилия:';
+        echo $last_name;
+    }
+    else
+    {
+        echo '<p>Фамилия введена неправильно 1 буква не заглавная!';
+    }
+}
+else
+{
+    echo "<p>Введите Фамилию!";
+}
+if (preg_match("/^[а-яА-Яa-zA-Z0-9_\.\-]+@[а-яА-Яa-zA-Z0-9\-]+\.[а-яА-Яa-zA-Z\-\.]+$/Du", $email) > 0)
+{
+    echo "<p>Ваш email: ";
+    echo $email;
+}
+else
+{
+    echo "Введите действительный email";
+}
+if (preg_match('/^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/', $phone))
+{
+    echo '<p>Ваш телефон: ';
+    echo $phone;
+}
 ?>
+
 </body>
 </html>
